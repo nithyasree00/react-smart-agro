@@ -1,18 +1,17 @@
-:root {
-  --accent: #4CAF50;
-  --accent-dark: #388e3c;
-}
+
 
 .signup-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 28px;
+  margin-left: 250px;
 }
 
 h1 {
   color: rgba(15, 52, 15, 0.756);
   margin-bottom: 18px;
+  margin-left: 20px;
 }
 
 .role-buttons {
@@ -33,23 +32,16 @@ h1 {
 }
 
 .btn:hover {
-  background-color: rgb(27, 175, 35);
+  background-color: rgba(88, 122, 89, 0.558);
   color: #ffffff;
 }
 
 .btn.active {
-  background-color: var(--accent-dark);
+  background-color: rgba(88, 122, 89, 0.558) ;
   color: #fff;
 }
 
-.card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 18px;
-  width: 420px;
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
-  text-align: left;
-}
+
 
 label {
   display: block;
@@ -75,6 +67,7 @@ button {
 textarea {
   min-height: 68px;
   resize: vertical;
+
 }
 
 .note {
@@ -111,5 +104,20 @@ button:hover {
 @media (max-width: 480px) {
   .card {
     width: 92%;
+    margin-left: 20px;
   }
+}
+.card {
+  background: white;
+  padding: 25px 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  width: 100%;
+  max-width: 400px; 
+  
+}
+div{
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }

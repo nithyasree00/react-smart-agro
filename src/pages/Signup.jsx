@@ -71,8 +71,8 @@ const Signup = () => {
 
       {/* Form */}
       {role && (
-        <div className="card">
-          <form onSubmit={handleSubmit}>
+        <div >
+          <form onSubmit={handleSubmit} className="card">
             <label>Name</label>
             <input
               type="text"
