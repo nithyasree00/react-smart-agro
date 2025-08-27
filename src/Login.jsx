@@ -1,70 +1,106 @@
-body {
-  font-family:Georgia,serif;
-  background-color:rgba(160, 212, 161, 0.558) ;
-  text-align: center;
+import React, { useState } from "react";
+import "./App.css";
 
-}
-h1 {
-  color:rgba(15, 52, 15, 0.756);
-  margin-left: 300px;
-}
-.container {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 30px;
-  align-items: center;
-  text-align: center;
-  margin-left: 300px;
-}
-.box {
-  background-color:#ffffff;
-  color:rgba(26, 61, 26, 0.756);
-  padding: 20px;
-  border-radius: 10px;
-  cursor: pointer;
-  width: 150px;
-  text-align: center;
-  font-weight: bold;
-  transition: background 0.3s;
-}
-.box:hover {
-  background-color: rgb(27, 175, 35);
-  color:#ffffff;
-}
-.form-container {
-  display: none;
-  margin-top: 20px;
-}
-form {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  width: 300px;
-  margin-left:550px;
-  margin-top:20px;
-  box-shadow: 0px 0px 10px rgba(103, 100, 100, 0.584);
-}
+const App = () => {
+  const [selectedForm, setSelectedForm] = useState(""); // which form is visible
+  const [formData, setFormData] = useState({}); // store inputs
 
+  // generic change handler
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
-input {
-  width: 90%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid green;
-  border-radius: 5px;
-  background-color:white;
-  color:black;
-}
-button {
-  background: green;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-button:hover {
-  background: rgba(0, 100, 0, 0.648);
-  color:white;
-}
+  // simple validation
+  const validate = (type) => {
+    if (type === "admin") {
+      if (!/^[A-Za-z\s]+$/.test(formData.username || "")) {
+        alert("Username should contain only letters.");
+        return false;
+      }
+      if (!formData.password) {
+        alert("Password cannot be empty.");
+        return false;
+      }
+      return true;
+    } else {
+      if (!/^[A-Za-z\s]+$/.test(formData.name || "")) {
+        alert("Name should contain only letters.");
+        return false;
+      }
+      if (!/^[6-9]\d{9}$/.test(formData.mobile || "")) {
+        alert("Mobile must be 10 digits starting with 6–9.");
+        return false;
+      }
+      return true;
+    }
+  };
+
+  const handleSubmit = (e, type) => {
+    e.preventDefault();
+    if (validate(type)) {
+      alert(`${type} login successful!`);
+      setFormData({}); // reset
+    }
+  };
+
+  return (
+    <div className="app">
+      <h1>Login</h1>
+
+      {/* Options */}
+      <div className="container">
+        <div className="box" onClick={() => setSelectedForm("admin")}>Admin</div>
+        <div className="box" onClick={() => setSelectedForm("farmer")}>Farmer</div>
+        <div className="box" onClick={() => setSelectedForm("customer")}>Customer</div>
+        <div className="box" onClick={() => setSelectedForm("delivery")}>Delivery</div>
+      </div>
+
+      {/* Admin Form */}
+      {selectedForm === "admin" && (
+        <form onSubmit={(e) => handleSubmit(e, "admin")}>
+          <h2>Admin Login</h2>
+          <input
+            type="text"
+            name="username"
+            value={formData.username || ""}
+            onChange={handleChange}
+            placeholder="Enter Username"
+          />
+          <input
+            type="password"
+            name="password"
+            value={formData.password || ""}
+            onChange={handleChange}
+            placeholder="Enter Password"
+          />
+          <button type="submit">Login</button>
+        </form>
+      )}
+
+      {/* Other Users Form */}
+      {["farmer", "customer", "delivery"].includes(selectedForm) && (
+        <form onSubmit={(e) => handleSubmit(e, selectedForm)}>
+          <h2>{selectedForm} Login</h2>
+          <input
+            type="text"
+            name="name"
+            value={formData.name || ""}
+            onChange={handleChange}
+            placeholder="Enter Name"
+          />
+          <input
+            type="text"
+            name="mobile"
+            value={formData.mobile || ""}
+            onChange={handleChange}
+            placeholder="Enter Mobile"
+          />
+          <button type="submit">Login as {selectedForm}</button>
+        </form>
+      )}
+    </div>
+  );
+};
+
+export default App;
