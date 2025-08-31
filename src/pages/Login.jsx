@@ -48,13 +48,12 @@ const App = () => {
     <div className="app">
       <h1>Login</h1>
 
-      {/* Options */}
-      <div className="container">
-        <div className="box" onClick={() => setSelectedForm("admin")}>Admin</div>
-        <div className="box" onClick={() => setSelectedForm("farmer")}>Farmer</div>
-        <div className="box" onClick={() => setSelectedForm("customer")}>Customer</div>
-        <div className="box" onClick={() => setSelectedForm("delivery")}>Delivery</div>
-      </div>
+<div className="options-container">
+  <div className="box" onClick={() => setSelectedForm("admin")}>Admin</div>
+  <div className="box" onClick={() => setSelectedForm("farmer")}>Farmer</div>
+  <div className="box" onClick={() => setSelectedForm("customer")}>Customer</div>
+  <div className="box" onClick={() => setSelectedForm("delivery")}>Delivery</div>
+</div>
 
       {/* Admin Form */}
       {selectedForm === "admin" && (

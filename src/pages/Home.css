@@ -1,0 +1,128 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+.body, .home {
+  font-family: Georgia, serif;
+  background-color: rgba(182, 228, 168, 0.611);
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  width: 100vw;
+  min-height: 100vh;
+  background-image: url("public/images/homeima.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.container {
+  
+  justify-content: center;
+  margin-left:20%;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  width:1000px;
+
+}
+
+h1 {
+  color: rgb(170, 86, 30);
+}
+
+img {
+  width: 300px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.btn {
+  background-color: rgba(249, 246, 246, 0.849);
+  color: #2a7c4f;
+  padding: 14px 28px;
+  margin: 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 16px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn:hover {
+  background-color: rgb(27, 175, 35);
+  color: #ffffff;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgb(85, 112, 103);
+  height: 100px;
+  padding: 30px;
+}
+
+nav img {
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+  background-color: rgba(133, 188, 168, 0.858);
+  margin-top: 20px;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+}
+
+li {
+  list-style: none;
+}
+
+.steps {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 25px;
+  margin-left: 15%;
+  padding: 40px 20px;
+  flex-direction: column;
+}
+
+.step {
+  background: rgba(255, 255, 255, 0.736);
+  border-radius: 15px;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+  text-align: center;
+  width: 280px;
+  padding: 20px;
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.step:hover {
+  transform: translateY(-8px);
+}
+
+.step svg {
+  font-size: 40px;
+  color: rgb(27, 175, 35);
+  margin-bottom: 15px;
+}
+
+.step h3 {
+  color: rgb(75, 96, 89);
+  margin: 10px 0;
+}
+
+.step p {
+  font-size: 14px;
+  color: #555;
+}
