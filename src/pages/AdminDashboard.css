@@ -1,0 +1,85 @@
+.admin-dashboard {
+  display: flex;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background: #111; /* Dark background */
+  color: #fff;
+  width: 210vh;
+}
+
+.sidebar {
+  width: 220px;
+  background: #000; /* pure black sidebar */
+  color: #f1c40f; /* yellow accent */
+  padding: 20px;
+}
+
+.sidebar h2 {
+  margin-bottom: 30px;
+  font-size: 20px;
+  color: #2ecc71; /* green heading */
+  text-align: center;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  padding: 10px;
+  cursor: pointer;
+  margin-bottom: 5px;
+  border-radius: 4px;
+  transition: 0.3s;
+}
+
+.sidebar ul li:hover,
+.sidebar ul li.active {
+  background: #2ecc71; /* green hover */
+  color: #000; /* text black on hover */
+}
+
+.main-section {
+  flex: 1;
+  padding: 20px;
+  background: #1c1c1c; /* slightly lighter black */
+  color: #fff;
+}
+
+.main-section h3 {
+  margin-bottom: 15px;
+  color: #f1c40f; /* yellow headings */
+}
+
+.main-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.main-section ul li {
+  background: #000;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-left: 5px solid #2ecc71; /* green accent */
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.main-section ul li button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  background: #f1c40f; /* yellow button */
+  color: #000;
+  transition: 0.3s;
+}
+
+.main-section ul li button:hover {
+  background: #2ecc71; /* green hover for button */
+  color: #000;
+}

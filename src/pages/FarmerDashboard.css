@@ -1,0 +1,313 @@
+/* General container styling */
+.container {
+  padding: 20px;
+  width: 400px;
+  margin: 0 auto;
+  height: 550px;
+  background: #f9f9f982;
+  border-radius: 50px;
+  margin-top: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  
+}
+
+/* Heading styles */
+.container h2, .container h3 {
+  text-align: center;
+
+  color: #333;
+}
+
+/* Form styling */
+form.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 30px;
+  margin-right: 38px;
+}
+
+form.steps input {
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 100%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+form.steps button {
+  background-color: #28a745;
+  color: white;
+  font-size: 16px;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+form.steps button:hover {
+  background-color: #218838;
+}
+
+/* Notifications dropdown */
+.notifications {
+  position: relative;
+  display: inline-block;
+  height: 60px;
+}
+
+.notifications button {
+  background: white;
+  height: 30px;
+  border: none;
+  cursor: pointer;
+  color: rgb(30, 8, 8);
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.notifications-dropdown {
+  position: absolute;
+  top: 35px;
+  right: 0;
+  background: rgba(255, 255, 255, 0.563);
+  min-width: 250px;
+  border: 1px solid #ddd;
+  
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  z-index: 100;
+  padding: 10px;
+  margin-top:50px;
+  border-bottom-left-radius: 20px;
+  border-top-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  
+}
+
+.notifications-dropdown li {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+  list-style: none;
+  font-size: 14px;
+  color: #333;
+}
+
+.notifications-dropdown li:last-child {
+  border-bottom: none;
+}
+
+/* Profile info */
+.profile {
+  color: rgb(255, 255, 255);
+  height: 10px;
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  height: 70px;
+}
+
+.profile span {
+  font-size: 12px;
+  color: #1e0b0b;
+}
+
+/* Adjust navbar ul */
+nav ul {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Notifications & Profile spacing */
+nav li.notifications, nav li.profile {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background-color: rgb(85, 112, 103);
+}
+
+/* Farmer requests list */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul li {
+  background: #fff;
+  padding: 10px 15px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+/* Profile card styling */
+.profile-card {
+  position: absolute;
+  top: 35px;
+  right: 0;
+  background: rgba(255, 255, 255, 0.522);
+  padding: 10px 15px;
+  border-bottom-left-radius: 20px;
+  border-top-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  z-index: 100;
+  width: 200px;
+  margin-top:50px;
+  margin-right:50px;
+  
+}
+
+.profile-card p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #333333;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+.body, .home {
+  font-family: Georgia, serif;
+  background-color: rgba(182, 228, 168, 0.611);
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  width: 100vw;
+  min-height: 100vh;
+  background-image: url("public/images/homeima.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+
+h1 {
+  color: rgb(170, 86, 30);
+}
+
+img {
+  width: 300px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.btn {
+  background-color: rgba(249, 246, 246, 0.849);
+  color: #2a7c4f;
+  padding: 14px 28px;
+  margin: 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 16px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn:hover {
+  background-color: rgb(27, 175, 35);
+  color: #ffffff;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgb(85, 112, 103);
+  height: 90px;
+  padding: 30px;
+}
+
+nav img {
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+  background-color: rgba(133, 188, 168, 0.858);
+  margin-top: 20px;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+}
+
+li {
+  list-style: none;
+}
+
+/* ------------------- History / Posted Products ------------------- */
+.posted-products {
+  max-height: 300px; /* scrollable if many items */
+  overflow-y: auto;
+  margin-top: 15px;
+  padding: 0;
+}
+
+.posted-products li {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #f1f1f1;
+  padding: 10px 15px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  transition: transform 0.2s ease;
+}
+
+.posted-products li:hover {
+  transform: translateY(-3px);
+}
+
+/* Product image in history */
+.posted-products li img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+/* Product details */
+.posted-products li div.details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.posted-products li div.details span {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 3px;
+}
+
+.posted-products li div.details span strong {
+  color: #2a7c4f;
+}
+
+/* Scrollbar styling (optional but looks nice) */
+.posted-products::-webkit-scrollbar {
+  width: 6px;
+}
+
+.posted-products::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 3px;
+}
+
+.posted-products::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+
+
+

@@ -1,57 +1,77 @@
-
+/* Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
+/* Signup Container */
 .signup-container {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  padding: 28px;
-  margin-left:70%;
-  margin-bottom:20px;
-  width:700px;
+  flex-direction: column;
+  min-height: calc(100vh - 80px); /* below navbar */
+  background-color: #eaf3e029;
+  background-image: url("/images/farm-bg-light.png"); /* optional, match home page */
+  background-size: cover;
+  background-position: center;
+  padding: 40px 20px;
 }
 
+/* Heading */
 h1 {
-  color: rgba(15, 52, 15, 0.756);
-  margin-bottom: 18px;
-  margin-left: 20px;
+  color: #2f4f2f;
+  margin-bottom: 20px;
+  font-family: "Georgia", serif;
+  text-align: center;
 }
 
+/* Role Buttons */
 .role-buttons {
   display: flex;
   gap: 16px;
   margin-bottom: 20px;
+  justify-content: center;
 }
 
 .btn {
   background-color: #ffffff;
-  color: rgba(15, 52, 15, 0.756);
-  padding: 14px 28px;
-  border: none;
+  color: rgba(15, 52, 15, 0.85);
+  padding: 12px 28px;
+  border: 1px solid #ccc;
   cursor: pointer;
   border-radius: 8px;
   font-size: 16px;
   font-family: Georgia, serif;
+  transition: all 0.3s ease;
 }
 
 .btn:hover {
-  background-color: rgba(88, 122, 89, 0.558);
-  color: #ffffff;
-}
-
-.btn.active {
-  background-color: rgba(88, 122, 89, 0.558) ;
+  background-color: rgba(88, 122, 89, 0.6);
   color: #fff;
 }
 
+.btn.active {
+  background-color: rgba(88, 122, 89, 0.7);
+  color: #fff;
+}
 
+/* Card */
+.card {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 28px 34px;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 420px;
+  text-align: left;
+}
 
+/* Labels and Inputs */
 label {
   display: block;
-  margin-top: 10px;
+  margin-top: 12px;
   font-size: 13px;
   color: #333;
   font-weight: 600;
@@ -59,23 +79,21 @@ label {
 
 input,
 select,
-textarea,
-button {
+textarea {
   width: 100%;
   margin-top: 6px;
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #d0d7d0;
   font-size: 14px;
-  box-sizing: border-box;
 }
 
 textarea {
-  min-height: 68px;
+  min-height: 70px;
   resize: vertical;
-
 }
 
+/* Feedback Text */
 .note {
   font-size: 13px;
   color: #666;
@@ -94,36 +112,29 @@ textarea {
   margin-top: 8px;
 }
 
+/* Submit Button */
 button {
-  background: rgba(88, 122, 89, 0.558);
+  background: rgba(88, 122, 89, 0.7);
   color: #fff;
   border: none;
-  margin-top: 14px;
-  cursor: pointer;
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 18px;
+  width: 100%;
   font-weight: 600;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background 0.3s ease;
 }
 
 button:hover {
-  background:rgba(88, 122, 89, 0.558);
+  background: rgba(88, 122, 89, 0.85);
 }
 
-@media (max-width: 480px) {
+/* Responsive */
+@media (max-width: 768px) {
   .card {
-    width: 92%;
-    margin-left: 20px;
+    max-width: 90%;
+    padding: 22px;
   }
-}
-.card {
-  background: rgb(255, 255, 255);
-  padding: 25px 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  width: 100%;
-  max-width: 400px; 
-  margin-left: 25px;
-}
-div{
-  list-style: none;
-  padding: 0;
-  margin: 0;
 }

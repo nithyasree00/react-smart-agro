@@ -1,105 +1,97 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
-const App = () => {
-  const [selectedForm, setSelectedForm] = useState(""); // which form is visible
-  const [formData, setFormData] = useState({}); // store inputs
+const Login = () => {
+  const [formData, setFormData] = useState({
+    mobile: "",
+    password: "",
+    role: "",
+  });
 
-  // generic change handler
+  const navigate = useNavigate();
+  const roles = ["admin", "farmer", "customer", "delivery"];
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // simple validation
-  const validate = (type) => {
-    if (type === "admin") {
-      if (!/^[A-Za-z\s]+$/.test(formData.username || "")) {
-        alert("Username should contain only letters.");
-        return false;
-      }
-      if (!formData.password) {
-        alert("Password cannot be empty.");
-        return false;
-      }
-      return true;
-    } else {
-      if (!/^[A-Za-z\s]+$/.test(formData.name || "")) {
-        alert("Name should contain only letters.");
-        return false;
-      }
-      if (!/^[6-9]\d{9}$/.test(formData.mobile || "")) {
-        alert("Mobile must be 10 digits starting with 6–9.");
-        return false;
-      }
-      return true;
-    }
-  };
-
-  const handleSubmit = (e, type) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validate(type)) {
-      alert(`${type} login successful!`);
-      setFormData({}); // reset
+
+    if (!formData.mobile.trim() || !formData.password.trim() || !formData.role.trim()) {
+      return alert("Please fill all fields and select a role");
+    }
+
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          identifier: formData.mobile, // backend expects 'identifier'
+          password: formData.password,
+          role: formData.role,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        alert(data.message);
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("role", data.role);
+
+        // Redirect
+        if (data.role === "customer") navigate("/CustomerDashboard");
+        if (data.role === "farmer") navigate("/FarmerDashboard");
+        if (data.role === "admin") navigate("/AdminDashboard");
+        if (data.role === "delivery") navigate("/DeliveryDashboard");
+      } else {
+        alert(data.message || "Login failed");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Server error");
     }
   };
 
   return (
-    <div className="app">
+    <div className="login-container">
       <h1>Login</h1>
+      <form onSubmit={handleSubmit} className="login-form">
+        <label>Mobile</label>
+        <input
+          type="text"
+          name="mobile"
+          value={formData.mobile}
+          onChange={handleChange}
+          placeholder="Enter Mobile"
+        />
 
-<div className="options-container">
-  <div className="box" onClick={() => setSelectedForm("admin")}>Admin</div>
-  <div className="box" onClick={() => setSelectedForm("farmer")}>Farmer</div>
-  <div className="box" onClick={() => setSelectedForm("customer")}>Customer</div>
-  <div className="box" onClick={() => setSelectedForm("delivery")}>Delivery</div>
-</div>
+        <label>Password</label>
+        <input
+          type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          placeholder="Enter Password"
+        />
 
-      {/* Admin Form */}
-      {selectedForm === "admin" && (
-        <form onSubmit={(e) => handleSubmit(e, "admin")}>
-          <h2>Admin Login</h2>
-          <input
-            type="text"
-            name="username"
-            value={formData.username || ""}
-            onChange={handleChange}
-            placeholder="Enter Username"
-          />
-          <input
-            type="password"
-            name="password"
-            value={formData.password || ""}
-            onChange={handleChange}
-            placeholder="Enter Password"
-          />
-          <button type="submit">Login</button>
-        </form>
-      )}
+        <label>Role</label>
+        <select name="role" value={formData.role} onChange={handleChange}>
+          <option value="">-- Select Role --</option>
+          {roles.map((role) => (
+            <option key={role} value={role}>
+              {role.charAt(0).toLowerCase() + role.slice(1)}
+            </option>
+          ))}
+        </select>
 
-      {/* Other Users Form */}
-      {["farmer", "customer", "delivery"].includes(selectedForm) && (
-        <form onSubmit={(e) => handleSubmit(e, selectedForm)}>
-          <h2>{selectedForm} Login</h2>
-          <input
-            type="text"
-            name="name"
-            value={formData.name || ""}
-            onChange={handleChange}
-            placeholder="Enter Name"
-          />
-          <input
-            type="text"
-            name="mobile"
-            value={formData.mobile || ""}
-            onChange={handleChange}
-            placeholder="Enter Mobile"
-          />
-          <button type="submit">Login as {selectedForm}</button>
-        </form>
-      )}
+        <button type="submit">Login</button>
+      </form>
     </div>
   );
 };
 
-export default App;
+export default Login;

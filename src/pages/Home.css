@@ -40,6 +40,7 @@ img {
   margin-bottom: 20px;
 }
 
+/* General button (used in home page sections) */
 .btn {
   background-color: rgba(249, 246, 246, 0.849);
   color: #2a7c4f;
@@ -58,32 +59,27 @@ img {
   color: #ffffff;
 }
 
+/* Nav links (clean, no white box) */
+nav ul li a {
+  text-decoration: none;
+  color: white;
+  font-size: 18px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: background 0.3s ease;
+}
+
+nav ul li a:hover {
+  background-color: rgba(255, 255, 255, 0.2); /* light hover effect */
+}
 nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: rgb(85, 112, 103);
-  height: 100px;
+  height: 90px;
   padding: 30px;
 }
-
-nav img {
-  height: 80px;
-  width: 80px;
-  border-radius: 50%;
-  background-color: rgba(133, 188, 168, 0.858);
-  margin-top: 20px;
-}
-
-nav ul {
-  list-style: none;
-  display: flex;
-}
-
-li {
-  list-style: none;
-}
-
 .steps {
   display: flex;
   justify-content: center;
