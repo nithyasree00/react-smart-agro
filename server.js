@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import path from "path";
+import { fileURLToPath } from "url";
 
 import authRoutes from "./Routes/auth.js";
 import inventoryRoutes from "./Routes/inventory.js";
@@ -25,25 +26,17 @@ app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/inventory", inventoryRoutes);
 
-// ---------- 🧠 ADD THIS PART BELOW ----------
-
-// Serve frontend build files in production
-import { fileURLToPath } from "url";
+// ---------- Serve Frontend ----------
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-if (process.env.NODE_ENV === "production") {
-  // Adjust if your React build is inside 'frontend/build'
-  app.use(express.static(path.join(__dirname, "build")));
+// Serve the React Vite build folder
+app.use(express.static(path.join(__dirname, "dist")));
 
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "build", "index.html"));
-  });
-} else {
-  app.get("/", (req, res) => res.send("Smart Agro Backend Running!"));
-}
-
-// ---------- 🧠 END ADDITION ----------
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "dist", "index.html"));
+});
+// ---------- End Frontend ----------
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
