@@ -1,60 +1,91 @@
 import React from "react";
-import { FaUserPlus, FaSearch, FaShoppingCart, FaBox, FaTruck } from "react-icons/fa";
-import "./Home.css"; // external css file (see below)
+import "./Home.css";
+import "./CustomerDashboard.jsx";
+import { useNavigate } from "react-router-dom";
+import { FaSeedling, FaLeaf, FaTruck } from "react-icons/fa";
 
 export default function Home() {
+   const navigate = useNavigate();
+
+  const handleExplore = () => {
+    navigate("/CustomerDashboard");
+  };
   return (
-    <div className="home">
+    <div className="home-page">
       {/* Navbar */}
-      <nav>
-        <div>
-          <img src="public/images/LogoSmart.png" alt="Smart Agro Logo" />
-        </div>
-        <div>
-          <ul>
-            <li><a href="/Login" className="btn">Login</a></li>
-            <li><a href="/Signup" className="btn">Signup</a></li>
-          </ul>
-        </div>
+      <nav className="navbar">
+        <div><img src="public/images/LogoSmart.png" alt="Smart Agro Logo" /></div>
+        <div className="logo">Smart Agro</div>
+        <ul className="nav-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="/login">Login</a></li>
+          <li><a href="/signup">Signup</a></li>
+        </ul>
       </nav>
 
-      {/* Main container */}
-      <div className="container">
-        <h1>Welcome to Smart Agro Market</h1>
+      {/* Hero Section */}
+      <section id="home" className="hero">
+        <div className="hero-overlay"></div>
+        <div className="hero-content">
+          <h1>Welcome to Smart Agro Market</h1>
+          <p>
+            Freshly harvested vegetables straight from local farms —
+            sustainably grown, responsibly delivered.
+          </p>
+           <button className="explore-btn" onClick={handleExplore}>
+          Explore Now
+        </button>
+        </div>
+      </section>
 
-        {/* Steps section */}
-        <section className="steps">
+      {/* Steps / Info Section */}
+      <section className="steps">
+        <h2>How Smart Agro Works</h2>
+        <div className="steps-container">
           <div className="step">
-            <FaUserPlus />
-            <h3>Signup / Login</h3>
-            <p>Create your account and login with credentials.</p>
+            <FaSeedling className="icon" />
+            <h3>Smart Farming</h3>
+            <p>
+              We use advanced technology to monitor crop growth and soil
+              health for higher productivity.
+            </p>
           </div>
+          <div className="step">
+            <FaLeaf className="icon" />
+            <h3>Fresh Harvest</h3>
+            <p>
+              Our vegetables are handpicked daily to ensure the best freshness
+              and quality for your family.
+            </p>
+          </div>
+          <div className="step">
+            <FaTruck className="icon" />
+            <h3>Fast Delivery</h3>
+            <p>
+              Get your order delivered right to your doorstep — quick,
+              convenient, and eco-friendly.
+            </p>
+          </div>
+        </div>
+      </section>
 
-          <div className="step">
-            <FaSearch />
-            <h3>Browse Products</h3>
-            <p>Explore fresh farm produce directly from farmers.</p>
+      {/* Footer */}
+      <footer className="footer">
+        <div className="footer-content">
+          <h3>🌾 Smart Agro</h3>
+          <p>
+            Empowering farmers and bringing nature’s goodness to your home.
+          </p>
+          <div className="footer-links">
+            <a href="#">About</a>
+            <a href="#">Team</a>
+            <a href="#">Contact</a>
           </div>
-
-          <div className="step">
-            <FaShoppingCart />
-            <h3>Add to Cart</h3>
-            <p>Select products you want and add them to your cart.</p>
-          </div>
-
-          <div className="step">
-            <FaBox />
-            <h3>Place Order</h3>
-            <p>Confirm your order and choose delivery options.</p>
-          </div>
-
-          <div className="step">
-            <FaTruck />
-            <h3>Delivery</h3>
-            <p>Get fresh products delivered to your doorstep.</p>
-          </div>
-        </section>
-      </div>
+          <p className="copyright">
+            © 2025 Smart Agro | Designed with ❤️ by Team Smart Agro
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }

@@ -20,7 +20,8 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.mobile.trim() || !formData.password.trim() || !formData.role.trim()) {
+    const { mobile, password, role } = formData;
+    if (!mobile || !password || !role) {
       return alert("Please fill all fields and select a role");
     }
 
@@ -28,11 +29,7 @@ const Login = () => {
       const response = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          identifier: formData.mobile, // backend expects 'identifier'
-          password: formData.password,
-          role: formData.role,
-        }),
+        body: JSON.stringify({ mobile, password, role }), // ✅ corrected here
       });
 
       const data = await response.json();
@@ -42,17 +39,17 @@ const Login = () => {
         localStorage.setItem("token", data.token);
         localStorage.setItem("role", data.role);
 
-        // Redirect
+        // Redirect to respective dashboard
         if (data.role === "customer") navigate("/CustomerDashboard");
         if (data.role === "farmer") navigate("/FarmerDashboard");
         if (data.role === "admin") navigate("/AdminDashboard");
         if (data.role === "delivery") navigate("/DeliveryDashboard");
       } else {
-        alert(data.message || "Login failed");
+        alert(data.message || "Invalid mobile or password");
       }
     } catch (err) {
       console.error(err);
-      alert("Server error");
+      alert("Server error. Try again later.");
     }
   };
 
@@ -66,7 +63,8 @@ const Login = () => {
           name="mobile"
           value={formData.mobile}
           onChange={handleChange}
-          placeholder="Enter Mobile"
+          placeholder="Enter your mobile number"
+          maxLength="10"
         />
 
         <label>Password</label>
@@ -75,7 +73,7 @@ const Login = () => {
           name="password"
           value={formData.password}
           onChange={handleChange}
-          placeholder="Enter Password"
+          placeholder="Enter your password"
         />
 
         <label>Role</label>
@@ -83,7 +81,7 @@ const Login = () => {
           <option value="">-- Select Role --</option>
           {roles.map((role) => (
             <option key={role} value={role}>
-              {role.charAt(0).toLowerCase() + role.slice(1)}
+              {role.charAt(0).toUpperCase() + role.slice(1)}
             </option>
           ))}
         </select>

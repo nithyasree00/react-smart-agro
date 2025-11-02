@@ -3,70 +3,91 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import Farmer from "../models/Farmer.js";
 import Customer from "../models/Customer.js";
-import Delivery from "../models/Delivery.js";
 import Admin from "../models/Admin.js";
+import Delivery from "../models/Delivery.js";
 
 const router = express.Router();
 
-// Map role to the correct model
-const roleModelMap = {
-  farmer: Farmer,
-  customer: Customer,
-  delivery: Delivery,
-  admin: Admin
+// Helper function: get model by role
+const getModelByRole = (role) => {
+  switch (role) {
+    case "farmer":
+      return Farmer;
+    case "customer":
+      return Customer;
+    case "admin":
+      return Admin;
+    case "delivery":
+      return Delivery;
+    default:
+      return null;
+  }
 };
 
-// ---------------- LOGIN ----------------
-router.post("/login", async (req, res) => {
+// 📝 SIGNUP
+router.post("/signup", async (req, res) => {
+  const { name, mobile, password, village, address, category, role } = req.body;
+
   try {
-    const { identifier, password, role } = req.body;
-
-    if (!identifier || !password || !role) {
-      return res.status(400).json({ success: false, message: "All fields are required" });
-    }
-
-    const Model = roleModelMap[role.toLowerCase()];
+    const Model = getModelByRole(role);
     if (!Model) return res.status(400).json({ success: false, message: "Invalid role" });
 
-    // Find user in the correct collection
-    const user = await Model.findOne({ mobile: identifier });
-    if (!user) return res.status(404).json({ success: false, message: "User not found" });
+    const existingUser = await Model.findOne({ mobile });
+    if (existingUser) {
+      return res.status(400).json({ success: false, message: "User already exists with this mobile" });
+    }
 
-    // Check password
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(401).json({ success: false, message: "Invalid password" });
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Generate JWT token
-    const token = jwt.sign({ id: user._id, role: role }, process.env.JWT_SECRET, { expiresIn: "1d" });
+    const newUser = new Model({
+      name,
+      mobile,
+      village,
+      address,
+      category,
+      password: hashedPassword,
+      role,
+    });
 
-    res.json({ success: true, message: "Login successful", token, role });
+    await newUser.save();
+
+    const token = jwt.sign(
+      { id: newUser._id, role: newUser.role },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    res.json({ success: true, message: "Signup successful", token, role: newUser.role });
   } catch (err) {
-    console.error("Login error:", err);
-    res.status(500).json({ success: false, message: "Server error" });
+    console.error("Signup error:", err);
+    res.status(500).json({ success: false, message: "Server error during signup" });
   }
 });
 
-// ---------------- SIGNUP ----------------
-router.post("/signup", async (req, res) => {
-  const { role, ...data } = req.body;
+// 🔐 LOGIN
+router.post("/login", async (req, res) => {
+  const { mobile, password, role } = req.body;
 
   try {
-    const Model = roleModelMap[role.toLowerCase()];
+    const Model = getModelByRole(role);
     if (!Model) return res.status(400).json({ success: false, message: "Invalid role" });
 
-    const hashedPassword = await bcrypt.hash(data.password, 10);
-    const user = new Model({ ...data, password: hashedPassword });
+    const user = await Model.findOne({ mobile });
+    if (!user) return res.status(400).json({ success: false, message: "User not found" });
 
-    await user.save();
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).json({ success: false, message: "Invalid credentials" });
 
-    const token = jwt.sign({ id: user._id, role }, process.env.JWT_SECRET, { expiresIn: "1d" });
-    res.json({ success: true, message: "Signup successful", token });
+    const token = jwt.sign(
+      { id: user._id, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    res.json({ success: true, message: "Login successful", token, role: user.role });
   } catch (err) {
-    console.error("Signup error:", err);
-    if (err.code === 11000) {
-      return res.status(400).json({ success: false, message: "Mobile number already exists" });
-    }
-    res.status(500).json({ success: false, message: "Signup failed", error: err.message });
+    console.error("Login error:", err);
+    res.status(500).json({ success: false, message: "Server error during login" });
   }
 });
 

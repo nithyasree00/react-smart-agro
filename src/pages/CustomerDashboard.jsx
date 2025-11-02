@@ -1,34 +1,76 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./CustomerDashboard.css";
 import { FaShoppingCart, FaBox, FaUserCircle, FaHome } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+const API_BASE = "http://localhost:5000/api";
 
 const CustomerDashboard = () => {
   const [activeTab, setActiveTab] = useState("home");
   const [cart, setCart] = useState([]);
   const [orders, setOrders] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
-  // Dummy Products (later replace with API)
-  const products = [
-    { id: 1, name: "Tomatoes", price: 40, unit: "kg" },
-    { id: 2, name: "Potatoes", price: 30, unit: "kg" },
-    { id: 3, name: "Onions", price: 35, unit: "kg" },
-    { id: 4, name: "Rice", price: 60, unit: "kg" },
-  ];
+  const isLoggedIn = !!localStorage.getItem("token");
 
-  const addToCart = (product) => {
-    setCart([...cart, product]);
+  // Fetch products
+  useEffect(() => {
+    axios.get(`${API_BASE}/products`).then((res) => setProducts(res.data));
+  }, []);
+
+  // Fetch profile
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token)
+      axios
+        .get(`${API_BASE}/customers/me`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => setUser(res.data))
+        .catch(() => localStorage.removeItem("token"));
+  }, [isLoggedIn]);
+
+  // Fetch orders
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token)
+      axios
+        .get(`${API_BASE}/orders`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => setOrders(res.data));
+  }, [isLoggedIn]);
+
+  const addToCart = (p) => {
+    if (!isLoggedIn) {
+      alert("Please login first!");
+      navigate("/login");
+      return;
+    }
+    setCart([...cart, p]);
   };
 
-  const placeOrder = () => {
+  const placeOrder = async () => {
     if (!cart.length) return alert("Cart is empty!");
-    setOrders([...orders, { id: Date.now(), items: cart, status: "Pending" }]);
-    setCart([]);
-    alert("✅ Order placed successfully!");
+    try {
+      const token = localStorage.getItem("token");
+      await axios.post(
+        `${API_BASE}/orders`,
+        { items: cart },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      alert("✅ Order placed successfully!");
+      setCart([]);
+    } catch (err) {
+      alert("❌ Failed to place order");
+    }
   };
 
   return (
     <div className="customer-dashboard">
-      {/* Navbar */}
       <nav className="customer-nav">
         <div className="logo">Smart Agro</div>
         <ul>
@@ -47,13 +89,12 @@ const CustomerDashboard = () => {
         </ul>
       </nav>
 
-      {/* Home / Products */}
       {activeTab === "home" && (
         <div className="products-section">
-          <h2>Available Products</h2>
+          <h2>Available Fresh Products</h2>
           <div className="products-grid">
             {products.map((p) => (
-              <div className="product-card" key={p.id}>
+              <div className="product-card" key={p._id}>
                 <h3>{p.name}</h3>
                 <p>₹{p.price} / {p.unit}</p>
                 <button onClick={() => addToCart(p)}>Add to Cart</button>
@@ -63,18 +104,13 @@ const CustomerDashboard = () => {
         </div>
       )}
 
-      {/* Cart */}
       {activeTab === "cart" && (
         <div className="cart-section">
           <h2>Your Cart</h2>
           {cart.length ? (
             <>
-              <ul>
-                {cart.map((c, i) => (
-                  <li key={i}>{c.name} - ₹{c.price}</li>
-                ))}
-              </ul>
-              <button className="place-order-btn" onClick={placeOrder}>Place Order</button>
+              <ul>{cart.map((c, i) => <li key={i}>{c.name} - ₹{c.price}</li>)}</ul>
+              <button onClick={placeOrder}>Place Order</button>
             </>
           ) : (
             <p>Cart is empty</p>
@@ -82,31 +118,30 @@ const CustomerDashboard = () => {
         </div>
       )}
 
-      {/* Orders */}
       {activeTab === "orders" && (
         <div className="orders-section">
           <h2>My Orders</h2>
           {orders.length ? (
-            <ul>
-              {orders.map((o) => (
-                <li key={o.id}>
-                  Order #{o.id} - {o.items.length} items - Status: <b>{o.status}</b>
-                </li>
-              ))}
-            </ul>
+            <ul>{orders.map((o) => <li key={o._id}>Order #{o._id.slice(-5)} - {o.items.length} items - {o.status}</li>)}</ul>
           ) : (
             <p>No orders yet</p>
           )}
         </div>
       )}
 
-      {/* Profile */}
       {activeTab === "profile" && (
         <div className="profile-section">
           <h2>My Profile</h2>
-          <p><b>Name:</b> Demo Customer</p>
-          <p><b>Mobile:</b> 9876543210</p>
-          <p><b>Address:</b> Hyderabad</p>
+          {user ? (
+            <>
+              <p><b>Name:</b> {user.name}</p>
+              <p><b>Mobile:</b> {user.mobile}</p>
+              <p><b>Address:</b> {user.address}</p>
+              <button onClick={() => { localStorage.removeItem("token"); navigate("/"); }}>Logout</button>
+            </>
+          ) : (
+            <button onClick={() => navigate("/login")}>Login / Signup</button>
+          )}
         </div>
       )}
     </div>
