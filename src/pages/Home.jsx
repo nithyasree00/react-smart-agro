@@ -14,7 +14,7 @@ export default function Home() {
     <div className="home-page">
       {/* Navbar */}
       <nav className="navbar">
-        <div><img src="public/images/LogoSmart.png" alt="Smart Agro Logo" /></div>
+        <div><img src="https://cdn.vectorstock.com/i/500p/38/97/letter-s-leaf-green-logo-vector-26903897.jpg" alt="Smart Agro Logo" /></div>
         <div className="logo">Smart Agro</div>
         <ul className="nav-links">
           <li><a href="#home">Home</a></li>

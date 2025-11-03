@@ -33,9 +33,8 @@ const __dirname = path.dirname(__filename);
 // Serve the React Vite build folder
 app.use(express.static(path.join(__dirname, "dist")));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "dist", "index.html"));
-});
+app.get("/", (req, res) => res.send("Smart Agro Backend Running!"));
+
 // ---------- End Frontend ----------
 
 const PORT = process.env.PORT || 5000;

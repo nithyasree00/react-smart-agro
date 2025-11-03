@@ -78,6 +78,7 @@ const FarmerDashboard = () => {
   return (
     <div className="home">
       <nav>
+        <div><img src="https://cdn.vectorstock.com/i/500p/38/97/letter-s-leaf-green-logo-vector-26903897.jpg" alt="Smart Agro Logo" /></div>
         <div className="logo">Smart Agro</div>
         <div>
           <ul>
@@ -87,7 +88,7 @@ const FarmerDashboard = () => {
               </button>
               {showNotif && (
                 <ul className="notifications-dropdown">
-                  {notifications.length ? notifications.map((n, i) => <li key={i}>{n.message}</li>) : <li>No notifications</li>}
+                  {notifications.length ? notifications.map((n, i) => <li key={i}>{n.message}</li>) : <li></li>}
                 </ul>
               )}
             </li>
@@ -131,7 +132,7 @@ const FarmerDashboard = () => {
           <button type="submit">Add Product</button>
         </form>
 
-        <h3>My Posted Products</h3>
+        <h3></h3>
         <ul className="posted-products">
           {postedItems.length
             ? postedItems.map((p, i) => (
@@ -140,7 +141,7 @@ const FarmerDashboard = () => {
                   <span>{p.item} - ₹{p.price} - {p.quantity}kg ({p.quality})</span>
                 </li>
               ))
-            : <p>No products posted yet.</p>}
+            : <p></p>}
         </ul>
       </div>
     </div>
